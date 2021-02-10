@@ -9,7 +9,7 @@ User rate/unrate behaviour for Laravel.
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/downloads" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/v/unstable.svg" alt="Latest Unstable Version"></a>
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/license" alt="License"></a>
-<a href="https://codeclimate.com/github/laravel-interaction/rate/maintainability"><img src="https://api.codeclimate.com/v1/badges/00926e0d1ffb6e36f097/maintainability" alt="Code Climate" /></a>
+<a href="https://codeclimate.com/github/laravel-interaction/rate/maintainability"><img src="https://api.codeclimate.com/v1/badges/3055ce4ae05e0dc12116/maintainability" alt="Code Climate" /></a>
 </p>
 
 > **Requires [PHP 7.2.0+](https://php.net/releases/)**
