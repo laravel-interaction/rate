@@ -16,7 +16,7 @@ class CreateRatingsTable extends Migration
         Schema::create(
             config('rate.table_names.ratings'),
             function (Blueprint $table): void {
-                config('rate.uuids')?$table->uuid('uuid'):   $table->bigIncrements('id');
+                config('rate.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
                 $table->unsignedBigInteger(config('rate.column_names.user_foreign_key'))->index()->comment('user_id');
                 $table->morphs('ratable');
                 $table->timestamps();
