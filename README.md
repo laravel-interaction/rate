@@ -54,6 +54,8 @@ use LaravelInteraction\Rate\Tests\Models\Channel;
 /** @var \LaravelInteraction\Rate\Tests\Models\Channel $channel */
 // Rate to Ratable
 $user->rate($channel);
+// rate is only allowed to be called once
+$user->rateOnce($channel);
 $user->unrate($channel);
 $user->toggleRate($channel);
 
