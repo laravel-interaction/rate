@@ -47,6 +47,54 @@ class RatableTest extends TestCase
         self::assertSame(1, $model->ratersCount());
         $model->loadCount('raters');
         self::assertSame(0, $model->ratersCount());
+        $user->rate($model);
+        self::assertSame(1, $model->raters()->count());
+        self::assertSame(1, $model->raters->count());
+        $paginate = $model->raters()->paginate();
+        self::assertSame(1, $paginate->total());
+        self::assertCount(1, $paginate->items());
+        $model->loadRatersCount(
+            function ($query) use ($user) {
+                return $query->whereKeyNot($user->getKey());
+            }
+        );
+        self::assertSame(0, $model->ratersCount());
+        $user2 = User::query()->create();
+        $user2->rate($model);
+
+        $model->loadRatersCount();
+        self::assertSame(2, $model->ratersCount());
+        self::assertSame(2, $model->raters()->count());
+        $model->load('raters');
+        self::assertSame(2, $model->raters->count());
+        $paginate = $model->raters()->paginate();
+        self::assertSame(2, $paginate->total());
+        self::assertCount(2, $paginate->items());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     */
+    public function testWithRatersCount(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        self::assertSame(0, $model->ratersCount());
+        $user->rate($model);
+        $model = $modelClass::query()->withRatersCount()->find($model->getKey());
+        self::assertSame(1, $model->ratersCount());
+        $user->rate($model);
+        $model = $modelClass::query()->withRatersCount()->find($model->getKey());
+        self::assertSame(1, $model->ratersCount());
+        $model = $modelClass::query()->withRatersCount(
+            function ($query) use ($user) {
+                return $query->whereKeyNot($user->getKey());
+            }
+        )->find($model->getKey());
+
+        self::assertSame(0, $model->ratersCount());
     }
 
     /**
