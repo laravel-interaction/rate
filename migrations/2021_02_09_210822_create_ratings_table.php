@@ -20,7 +20,7 @@ class CreateRatingsTable extends Migration
                 $table->unsignedBigInteger(config('rate.column_names.user_foreign_key'))->index()->comment('user_id');
                 $table->morphs('ratable');
                 $table->timestamps();
-                $table->unique([config('rate.column_names.user_foreign_key'), 'ratable_type', 'ratable_id']);
+                $table->index([config('rate.column_names.user_foreign_key'), 'ratable_type', 'ratable_id']);
             }
         );
     }
