@@ -88,8 +88,8 @@ $channel->isNotRatedBy($user);
 $channel->raters->each(function (User $user){
     echo $user->getKey();
 });
-
-$channels = Channel::query()->withCount('raters')->get();
+$channel->loadRatersCount();
+$channels = Channel::query()->withRatersCount()->get();
 $channels->each(function (Channel $channel){
     echo $channel->raters()->count(); // 1100
     echo $channel->raters_count; // "1100"
