@@ -19,6 +19,14 @@ trait Rater
      */
     public function rate(Model $object): void
     {
+        $this->ratedItems(get_class($object))->attach($object->getKey());
+    }
+
+    /**
+     * @param \Illuminate\Database\Eloquent\Model $object
+     */
+    public function rateOnce(Model $object): void
+    {
         if ($this->hasRated($object)) {
             return;
         }

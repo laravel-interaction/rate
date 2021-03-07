@@ -29,6 +29,17 @@ class RatedTest extends TestCase
         $user->rate($channel);
         $user->rate($channel);
         $user->rate($channel);
+        Event::assertDispatchedTimes(Rated::class, 3);
+    }
+
+    public function testRateOnceTimes(): void
+    {
+        $user = User::query()->create();
+        $channel = Channel::query()->create();
+        Event::fake([Rated::class]);
+        $user->rateOnce($channel);
+        $user->rateOnce($channel);
+        $user->rateOnce($channel);
         Event::assertDispatchedTimes(Rated::class);
     }
 
