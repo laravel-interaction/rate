@@ -12,10 +12,7 @@ class RatableTest extends TestCase
 {
     public function modelClasses(): array
     {
-        return[
-            [Channel::class],
-            [User::class],
-        ];
+        return[[Channel::class], [User::class]];
     }
 
     /**
@@ -50,14 +47,13 @@ class RatableTest extends TestCase
         $user->rate($model);
         self::assertSame(1, $model->raters()->count());
         self::assertSame(1, $model->raters->count());
-        $paginate = $model->raters()->paginate();
+        $paginate = $model->raters()
+            ->paginate();
         self::assertSame(1, $paginate->total());
         self::assertCount(1, $paginate->items());
-        $model->loadRatersCount(
-            function ($query) use ($user) {
-                return $query->whereKeyNot($user->getKey());
-            }
-        );
+        $model->loadRatersCount(function ($query) use ($user) {
+            return $query->whereKeyNot($user->getKey());
+        });
         self::assertSame(0, $model->ratersCount());
         $user2 = User::query()->create();
         $user2->rate($model);
@@ -67,7 +63,8 @@ class RatableTest extends TestCase
         self::assertSame(2, $model->raters()->count());
         $model->load('raters');
         self::assertSame(2, $model->raters->count());
-        $paginate = $model->raters()->paginate();
+        $paginate = $model->raters()
+            ->paginate();
         self::assertSame(2, $paginate->total());
         self::assertCount(2, $paginate->items());
     }
@@ -189,7 +186,10 @@ class RatableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame($modelClass::query()->whereKeyNot($model->getKey())->count(), $modelClass::query()->whereNotRatedBy($user)->count());
+        self::assertSame(
+            $modelClass::query()->whereKeyNot($model->getKey())->count(),
+            $modelClass::query()->whereNotRatedBy($user)->count()
+        );
         self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotRatedBy($other)->count());
     }
 }

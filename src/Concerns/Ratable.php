@@ -40,7 +40,8 @@ trait Ratable
         }
 
         return ($this->relationLoaded('ratableRatings') ? $this->ratableRatings : $this->ratableRatings())
-            ->where(config('rate.column_names.user_foreign_key'), $user->getKey())->count() > 0;
+            ->where(config('rate.column_names.user_foreign_key'), $user->getKey())
+            ->count() > 0;
     }
 
     public function isNotRatedBy(Model $user): bool
@@ -99,7 +100,12 @@ trait Ratable
 
     public function ratersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
-        return Interaction::numberForHumans($this->ratersCount(), $precision, $mode, $divisors ?? config('rate.divisors'));
+        return Interaction::numberForHumans(
+            $this->ratersCount(),
+            $precision,
+            $mode,
+            $divisors ?? config('rate.divisors')
+        );
     }
 
     public function scopeWhereRatedBy(Builder $query, Model $user): Builder
@@ -139,7 +145,8 @@ trait Ratable
             $query = $constraints($query);
         }
 
-        $column = $query->getModel()->getQualifiedKeyName();
+        $column = $query->getModel()
+            ->getQualifiedKeyName();
 
         return $query->select(DB::raw("COUNT(DISTINCT({$column}))"));
     }

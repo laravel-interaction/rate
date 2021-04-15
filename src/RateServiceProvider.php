@@ -11,18 +11,12 @@ class RateServiceProvider extends ServiceProvider
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
-            $this->publishes(
-                [
-                    $this->getConfigPath() => config_path('rate.php'),
-                ],
-                'rate-config'
-            );
-            $this->publishes(
-                [
-                    $this->getMigrationsPath() => database_path('migrations'),
-                ],
-                'rate-migrations'
-            );
+            $this->publishes([
+                $this->getConfigPath() => config_path('rate.php'),
+            ], 'rate-config');
+            $this->publishes([
+                $this->getMigrationsPath() => database_path('migrations'),
+            ], 'rate-migrations');
             if ($this->shouldLoadMigrations()) {
                 $this->loadMigrationsFrom($this->getMigrationsPath());
             }
