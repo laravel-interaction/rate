@@ -33,8 +33,9 @@ trait Ratable
         if (! is_a($user, config('rate.models.user'))) {
             return false;
         }
+        $ratersLoaded = $this->relationLoaded('raters');
 
-        if ($this->relationLoaded('raters')) {
+        if ($ratersLoaded) {
             return $this->raters->contains($user);
         }
 
