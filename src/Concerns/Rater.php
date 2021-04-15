@@ -19,7 +19,8 @@ trait Rater
      */
     public function rate(Model $object): void
     {
-        $this->ratedItems(get_class($object))->attach($object->getKey());
+        $this->ratedItems(get_class($object))
+            ->attach($object->getKey());
     }
 
     /**
@@ -32,7 +33,8 @@ trait Rater
             return;
         }
 
-        $this->ratedItems(get_class($object))->attach($object->getKey());
+        $this->ratedItems(get_class($object))
+            ->attach($object->getKey());
     }
 
     /**
@@ -45,7 +47,8 @@ trait Rater
             return;
         }
 
-        $this->ratedItems(get_class($object))->detach($object->getKey());
+        $this->ratedItems(get_class($object))
+            ->detach($object->getKey());
     }
 
     /**
@@ -53,7 +56,8 @@ trait Rater
      */
     public function toggleRate(Model $object): void
     {
-        $this->ratedItems(get_class($object))->toggle($object->getKey());
+        $this->ratedItems(get_class($object))
+            ->toggle($object->getKey());
     }
 
     /**
@@ -79,7 +83,11 @@ trait Rater
      */
     public function raterRatings(): HasMany
     {
-        return $this->hasMany(config('rate.models.rating'), config('rate.column_names.user_foreign_key'), $this->getKeyName());
+        return $this->hasMany(
+            config('rate.models.rating'),
+            config('rate.column_names.user_foreign_key'),
+            $this->getKeyName()
+        );
     }
 
     /**
@@ -89,6 +97,13 @@ trait Rater
      */
     protected function ratedItems(string $class): MorphToMany
     {
-        return $this->morphedByMany($class, 'ratable', config('rate.models.rating'), config('rate.column_names.user_foreign_key'), 'ratable_id')->withTimestamps();
+        return $this->morphedByMany(
+            $class,
+            'ratable',
+            config('rate.models.rating'),
+            config('rate.column_names.user_foreign_key'),
+            'ratable_id'
+        )
+            ->withTimestamps();
     }
 }

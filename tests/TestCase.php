@@ -35,19 +35,15 @@ class TestCase extends BaseTestCase
 
     protected function getEnvironmentSetUp($app): void
     {
-        config(
-            [
-                'database.default' => 'testing',
-                'rate.models.user' => User::class,
-                'rate.uuids' => true,
-            ]
-        );
+        config([
+            'database.default' => 'testing',
+            'rate.models.user' => User::class,
+            'rate.uuids' => true,
+        ]);
     }
 
     protected function getPackageProviders($app): array
     {
-        return [
-            RateServiceProvider::class,
-        ];
+        return [RateServiceProvider::class];
     }
 }
