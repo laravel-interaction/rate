@@ -101,8 +101,7 @@ trait Rater
             $class,
             'ratable',
             config('rate.models.rating'),
-            config('rate.column_names.user_foreign_key'),
-            'ratable_id'
+            config('rate.column_names.user_foreign_key')
         )
             ->withTimestamps();
     }
