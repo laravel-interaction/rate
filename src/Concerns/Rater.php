@@ -27,7 +27,8 @@ trait Rater
      */
     public function rateOnce(Model $object): void
     {
-        if ($this->hasRated($object)) {
+        $hasRated = $this->hasRated($object);
+        if ($hasRated) {
             return;
         }
 
@@ -39,7 +40,8 @@ trait Rater
      */
     public function unrate(Model $object): void
     {
-        if ($this->hasNotRated($object)) {
+        $hasNotRated = $this->hasNotRated($object);
+        if ($hasNotRated) {
             return;
         }
 
