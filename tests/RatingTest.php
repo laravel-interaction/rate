@@ -12,17 +12,17 @@ use LaravelInteraction\Rate\Tests\Models\User;
 class RatingTest extends TestCase
 {
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\LaravelInteraction\Rate\Tests\Models\User
+     * @var \LaravelInteraction\Rate\Tests\Models\User
      */
     protected $user;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|\LaravelInteraction\Rate\Tests\Models\Channel
+     * @var \LaravelInteraction\Rate\Tests\Models\Channel
      */
     protected $channel;
 
     /**
-     * @var \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Eloquent\Model|object|\LaravelInteraction\Rate\Rating|null
+     * @var \LaravelInteraction\Rate\Rating
      */
     protected $rating;
 
@@ -33,7 +33,7 @@ class RatingTest extends TestCase
         $this->user = User::query()->create();
         $this->channel = Channel::query()->create();
         $this->user->rate($this->channel);
-        $this->rating = Rating::query()->first();
+        $this->rating = Rating::query()->firstOrFail();
     }
 
     public function testRatingTimestamp(): void

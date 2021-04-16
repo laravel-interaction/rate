@@ -18,9 +18,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testRatings(string $modelClass): void
+    public function testRatings($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -32,9 +32,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testRatersCount(string $modelClass): void
+    public function testRatersCount($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -72,24 +72,25 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testWithRatersCount(string $modelClass): void
+    public function testWithRatersCount($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         self::assertSame(0, $model->ratersCount());
         $user->rate($model);
-        $model = $modelClass::query()->withRatersCount()->find($model->getKey());
+        $model = $modelClass::query()->withRatersCount()->whereKey($model->getKey())->firstOrFail();
         self::assertSame(1, $model->ratersCount());
         $user->rate($model);
-        $model = $modelClass::query()->withRatersCount()->find($model->getKey());
+        $model = $modelClass::query()->withRatersCount()->whereKey($model->getKey())->firstOrFail();
         self::assertSame(1, $model->ratersCount());
         $model = $modelClass::query()->withRatersCount(
             function ($query) use ($user) {
                 return $query->whereKeyNot($user->getKey());
             }
-        )->find($model->getKey());
+        )->whereKey($model->getKey())
+            ->firstOrFail();
 
         self::assertSame(0, $model->ratersCount());
     }
@@ -97,9 +98,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testRatersCountForHumans(string $modelClass): void
+    public function testRatersCountForHumans($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -110,9 +111,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testIsRatedBy(string $modelClass): void
+    public function testIsRatedBy($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -129,9 +130,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testIsNotRatedBy(string $modelClass): void
+    public function testIsNotRatedBy($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -148,9 +149,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testRaters(string $modelClass): void
+    public function testRaters($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -163,9 +164,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testScopeWhereRatedBy(string $modelClass): void
+    public function testScopeWhereRatedBy($modelClass): void
     {
         $user = User::query()->create();
         $other = User::query()->create();
@@ -178,7 +179,7 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
     public function testScopeWhereNotRatedBy($modelClass): void
     {
@@ -196,9 +197,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testRatableRatingsCount(string $modelClass): void
+    public function testRatableRatingsCount($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -210,9 +211,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testRatableRatingsCountForHumans(string $modelClass): void
+    public function testRatableRatingsCountForHumans($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -224,9 +225,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testAvgRating(string $modelClass): void
+    public function testAvgRating($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -241,9 +242,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testSumRating(string $modelClass): void
+    public function testSumRating($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -259,9 +260,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testSumRatingForHumans(string $modelClass): void
+    public function testSumRatingForHumans($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
@@ -277,9 +278,9 @@ class RatableTest extends TestCase
     /**
      * @dataProvider modelClasses
      *
-     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel $modelClass
      */
-    public function testRatingPercent(string $modelClass): void
+    public function testRatingPercent($modelClass): void
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();

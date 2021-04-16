@@ -17,8 +17,8 @@ use function is_a;
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Rate\Concerns\Rater[] $raters
  * @property-read int|null $ratable_ratings_count
  * @property-read int|null $raters_count
- * @property-read float|null $ratable_ratings_sum_rating
- * @property-read float|null $ratable_ratings_avg_rating
+ * @property float|null $ratable_ratings_sum_rating
+ * @property float|null $ratable_ratings_avg_rating
  *
  * @method static static|\Illuminate\Database\Eloquent\Builder whereRatedBy(\Illuminate\Database\Eloquent\Model $user)
  * @method static static|\Illuminate\Database\Eloquent\Builder whereNotRatedBy(\Illuminate\Database\Eloquent\Model $user)
@@ -79,6 +79,11 @@ trait Ratable
         );
     }
 
+    /**
+     * @param callable|null $constraints
+     *
+     * @return $this
+     */
     public function loadRatersCount($constraints = null)
     {
         $this->loadCount(
@@ -88,6 +93,8 @@ trait Ratable
                 },
             ]
         );
+
+        return $this;
     }
 
     public function ratersCount(): int
@@ -185,6 +192,9 @@ trait Ratable
         return (float) $this->ratable_ratings_avg_rating;
     }
 
+    /**
+     * @return $this
+     */
     public function loadAvgRating()
     {
         if (method_exists($this, 'loadAvg')) {
@@ -208,6 +218,9 @@ trait Ratable
         return (float) $this->ratable_ratings_sum_rating;
     }
 
+    /**
+     * @return $this
+     */
     public function loadSumRating()
     {
         if (method_exists($this, 'loadSum')) {
@@ -230,7 +243,7 @@ trait Ratable
         );
     }
 
-    public function ratingPercent($max = 5)
+    public function ratingPercent($max = 5): float
     {
         $quantity = $this->ratableRatingsCount();
         $total = $this->sumRating();

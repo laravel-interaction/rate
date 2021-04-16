@@ -15,6 +15,9 @@ use LaravelInteraction\Rate\Events\Rerated;
 use LaravelInteraction\Rate\Events\Unrated;
 
 /**
+ * @property float $rating
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property \Illuminate\Database\Eloquent\Model $user
  * @property \Illuminate\Database\Eloquent\Model $rater
  * @property \Illuminate\Database\Eloquent\Model $ratable
