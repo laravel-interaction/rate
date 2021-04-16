@@ -42,13 +42,4 @@ class RatedTest extends TestCase
         $user->rateOnce($channel);
         Event::assertDispatchedTimes(Rated::class);
     }
-
-    public function testToggle(): void
-    {
-        $user = User::query()->create();
-        $channel = Channel::query()->create();
-        Event::fake([Rated::class]);
-        $user->toggleRate($channel);
-        Event::assertDispatchedTimes(Rated::class);
-    }
 }

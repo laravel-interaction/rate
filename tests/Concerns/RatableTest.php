@@ -192,4 +192,100 @@ class RatableTest extends TestCase
         );
         self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotRatedBy($other)->count());
     }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     */
+    public function testRatableRatingsCount(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->rate($model);
+        $user->rate($model);
+        self::assertSame(2, $model->ratableRatingsCount());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     */
+    public function testRatableRatingsCountForHumans(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->rate($model);
+        $user->rate($model);
+        self::assertSame('2', $model->ratableRatingsCountForHumans());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     */
+    public function testAvgRating(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->rate($model);
+        self::assertSame(1.0, $model->avgRating());
+        $user->rate($model, 2);
+        self::assertSame(1.0, $model->avgRating());
+        $model->loadAvgRating();
+        self::assertSame(1.5, $model->avgRating());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     */
+    public function testSumRating(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->rate($model);
+        $user->rate($model);
+        self::assertSame(2.0, $model->sumRating());
+        $user->rate($model);
+        self::assertSame(2.0, $model->sumRating());
+        $model->loadSumRating();
+        self::assertSame(3.0, $model->sumRating());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     */
+    public function testSumRatingForHumans(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->rate($model);
+        $user->rate($model);
+        self::assertSame('2', $model->sumRatingForHumans());
+        $user->rate($model);
+        self::assertSame('2', $model->sumRatingForHumans());
+        $model->loadSumRating();
+        self::assertSame('3', $model->sumRatingForHumans());
+    }
+
+    /**
+     * @dataProvider modelClasses
+     *
+     * @param \LaravelInteraction\Rate\Tests\Models\User|\LaravelInteraction\Rate\Tests\Models\Channel|string $modelClass
+     */
+    public function testRatingPercent(string $modelClass): void
+    {
+        $user = User::query()->create();
+        $model = $modelClass::query()->create();
+        $user->rate($model);
+        $user->rate($model);
+        self::assertSame(20.0, $model->ratingPercent());
+        self::assertSame(10.0, $model->ratingPercent(10));
+    }
 }
