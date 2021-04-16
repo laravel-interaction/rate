@@ -15,7 +15,10 @@ use function is_a;
 /**
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Rate\Rating[] $ratableRatings
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Rate\Concerns\Rater[] $raters
+ * @property-read int|null $ratable_ratings_count
  * @property-read int|null $raters_count
+ * @property-read float|null $ratable_ratings_sum_rating
+ * @property-read float|null $ratable_ratings_avg_rating
  *
  * @method static static|\Illuminate\Database\Eloquent\Builder whereRatedBy(\Illuminate\Database\Eloquent\Model $user)
  * @method static static|\Illuminate\Database\Eloquent\Builder whereNotRatedBy(\Illuminate\Database\Eloquent\Model $user)
@@ -73,7 +76,7 @@ trait Ratable
             static function (MorphToMany $relation) {
                 $relation->distinct($relation->getRelated()->qualifyColumn($relation->getRelatedKeyName()));
             }
-        )->withTimestamps();
+        );
     }
 
     public function loadRatersCount($constraints = null)
@@ -149,5 +152,89 @@ trait Ratable
             ->getQualifiedKeyName();
 
         return $query->select(DB::raw("COUNT(DISTINCT({$column}))"));
+    }
+
+    public function ratableRatingsCount(): int
+    {
+        if ($this->ratable_ratings_count !== null) {
+            return (int) $this->ratable_ratings_count;
+        }
+        $this->loadCount('ratableRatings');
+
+        return (int) $this->ratable_ratings_count;
+    }
+
+    public function ratableRatingsCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    {
+        return Interaction::numberForHumans(
+            $this->ratableRatingsCount(),
+            $precision,
+            $mode,
+            $divisors ?? config('rate.divisors')
+        );
+    }
+
+    public function avgRating(): float
+    {
+        if ($this->ratable_ratings_avg_rating !== null) {
+            return (float) $this->ratable_ratings_avg_rating;
+        }
+
+        $this->loadAvgRating();
+
+        return (float) $this->ratable_ratings_avg_rating;
+    }
+
+    public function loadAvgRating()
+    {
+        if (method_exists($this, 'loadAvg')) {
+            $this->loadAvg('ratableRatings', 'rating');
+        } else {
+            $this->ratable_ratings_avg_rating = $this->ratableRatings()
+                ->avg('rating');
+        }
+
+        return $this;
+    }
+
+    public function sumRating(): float
+    {
+        if ($this->ratable_ratings_sum_rating !== null) {
+            return (float) $this->ratable_ratings_sum_rating;
+        }
+
+        $this->loadSumRating();
+
+        return (float) $this->ratable_ratings_sum_rating;
+    }
+
+    public function loadSumRating()
+    {
+        if (method_exists($this, 'loadSum')) {
+            $this->loadSum('ratableRatings', 'rating');
+        } else {
+            $this->ratable_ratings_sum_rating = $this->ratableRatings()
+                ->sum('rating');
+        }
+
+        return $this;
+    }
+
+    public function sumRatingForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    {
+        return Interaction::numberForHumans(
+            $this->sumRating(),
+            $precision,
+            $mode,
+            $divisors ?? config('rate.divisors')
+        );
+    }
+
+    public function ratingPercent($max = 5)
+    {
+        $quantity = $this->ratableRatingsCount();
+        $total = $this->sumRating();
+
+        return $quantity * $max > 0 ? $total / ($quantity * $max / 100) : 0;
     }
 }

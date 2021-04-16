@@ -50,35 +50,11 @@ class RaterTest extends TestCase
         );
     }
 
-    public function testToggleRate(): void
-    {
-        $user = User::query()->create();
-        $channel = Channel::query()->create();
-        $user->toggleRate($channel);
-        $this->assertDatabaseHas(
-            Rating::query()->getModel()->getTable(),
-            [
-                'user_id' => $user->getKey(),
-                'ratable_type' => $channel->getMorphClass(),
-                'ratable_id' => $channel->getKey(),
-            ]
-        );
-        $user->toggleRate($channel);
-        $this->assertDatabaseMissing(
-            Rating::query()->getModel()->getTable(),
-            [
-                'user_id' => $user->getKey(),
-                'ratable_type' => $channel->getMorphClass(),
-                'ratable_id' => $channel->getKey(),
-            ]
-        );
-    }
-
     public function testRatings(): void
     {
         $user = User::query()->create();
         $channel = Channel::query()->create();
-        $user->toggleRate($channel);
+        $user->rate($channel);
         self::assertSame(1, $user->raterRatings()->count());
         self::assertSame(1, $user->raterRatings->count());
     }
@@ -87,9 +63,9 @@ class RaterTest extends TestCase
     {
         $user = User::query()->create();
         $channel = Channel::query()->create();
-        $user->toggleRate($channel);
+        $user->rate($channel);
         self::assertTrue($user->hasRated($channel));
-        $user->toggleRate($channel);
+        $user->unrate($channel);
         $user->load('raterRatings');
         self::assertFalse($user->hasRated($channel));
     }
@@ -98,9 +74,9 @@ class RaterTest extends TestCase
     {
         $user = User::query()->create();
         $channel = Channel::query()->create();
-        $user->toggleRate($channel);
+        $user->rate($channel);
         self::assertFalse($user->hasNotRated($channel));
-        $user->toggleRate($channel);
+        $user->unrate($channel);
         self::assertTrue($user->hasNotRated($channel));
     }
 }

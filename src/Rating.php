@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\MorphPivot;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Str;
 use LaravelInteraction\Rate\Events\Rated;
+use LaravelInteraction\Rate\Events\Rerated;
 use LaravelInteraction\Rate\Events\Unrated;
 
 /**
@@ -58,6 +59,7 @@ class Rating extends MorphPivot
 
     protected $dispatchesEvents = [
         'created' => Rated::class,
+        'updated' => Rerated::class,
         'deleted' => Unrated::class,
     ];
 

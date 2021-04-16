@@ -105,6 +105,7 @@ $channels->each(function (Channel $channel){
 | Event | Fired |
 | --- | --- |
 | `LaravelInteraction\Rate\Events\Rated` | When an object get rated. |
+| `LaravelInteraction\Rate\Events\Rerated` | When an object get rerated. |
 | `LaravelInteraction\Rate\Events\Unrated` | When an object get unrated. |
 
 ## License

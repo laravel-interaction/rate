@@ -19,6 +19,7 @@ class CreateRatingsTable extends Migration
                 config('rate.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
                 $table->unsignedBigInteger(config('rate.column_names.user_foreign_key'))->index()->comment('user_id');
                 $table->morphs('ratable');
+                $table->float('rating');
                 $table->timestamps();
                 $table->index([config('rate.column_names.user_foreign_key'), 'ratable_type', 'ratable_id']);
             }
