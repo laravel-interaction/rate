@@ -24,6 +24,12 @@ class RaterTest extends TestCase
                 'ratable_id' => $channel->getKey(),
             ]
         );
+        $user->load('raterRatings');
+        $user->unrate($channel);
+        $user->load('raterRatings');
+        $user->rate($channel);
+        $user->load('raterRatings');
+        $user->rateOnce($channel);
     }
 
     public function testUnrate(): void
@@ -39,6 +45,7 @@ class RaterTest extends TestCase
                 'ratable_id' => $channel->getKey(),
             ]
         );
+        $user->rate($channel);
         $user->unrate($channel);
         $this->assertDatabaseMissing(
             Rating::query()->getModel()->getTable(),
