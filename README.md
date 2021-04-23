@@ -3,13 +3,10 @@
 User rate/unrate behaviour for Laravel.
 
 <p align="center">
-<a href="https://github.com/laravel-interaction/rate/actions"><img src="https://github.com/laravel-interaction/rate/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://codecov.io/gh/laravel-interaction/rate"><img src="https://codecov.io/gh/laravel-interaction/rate/branch/master/graph/badge.svg" alt="Code Coverage" /></a>
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/v/stable.svg" alt="Latest Stable Version"></a>
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/downloads" alt="Total Downloads"></a>
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/v/unstable.svg" alt="Latest Unstable Version"></a>
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/license" alt="License"></a>
-<a href="https://codeclimate.com/github/laravel-interaction/rate/maintainability"><img src="https://api.codeclimate.com/v1/badges/3055ce4ae05e0dc12116/maintainability" alt="Code Climate" /></a>
 </p>
 
 > **Requires [PHP 7.2.0+](https://php.net/releases/)**
