@@ -158,7 +158,7 @@ trait Ratable
         $column = $query->getModel()
             ->getQualifiedKeyName();
 
-        return $query->select(DB::raw("COUNT(DISTINCT({$column}))"));
+        return $query->select(DB::raw(sprintf('COUNT(DISTINCT(%s))', $column)));
     }
 
     public function ratableRatingsCount(): int
