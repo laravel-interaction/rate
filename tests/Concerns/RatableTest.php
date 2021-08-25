@@ -235,7 +235,7 @@ class RatableTest extends TestCase
         self::assertSame(1.0, $model->avgRating());
         $user->rate($model, 2);
         self::assertSame(1.0, $model->avgRating());
-        $model->loadAvgRating();
+        $model->offsetUnset('ratable_ratings_avg_rating');
         self::assertSame(1.5, $model->avgRating());
     }
 
@@ -253,7 +253,7 @@ class RatableTest extends TestCase
         self::assertSame(2.0, $model->sumRating());
         $user->rate($model);
         self::assertSame(2.0, $model->sumRating());
-        $model->loadSumRating();
+        $model->offsetUnset('ratable_ratings_sum_rating');
         self::assertSame(3.0, $model->sumRating());
     }
 
@@ -271,7 +271,7 @@ class RatableTest extends TestCase
         self::assertSame('2', $model->sumRatingForHumans());
         $user->rate($model);
         self::assertSame('2', $model->sumRatingForHumans());
-        $model->loadSumRating();
+        $model->offsetUnset('ratable_ratings_sum_rating');
         self::assertSame('3', $model->sumRatingForHumans());
     }
 
