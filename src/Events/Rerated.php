@@ -13,11 +13,6 @@ class Rerated
      */
     public $rating;
 
-    /**
-     * Liked constructor.
-     *
-     * @param \Illuminate\Database\Eloquent\Model $rating
-     */
     public function __construct(Model $rating)
     {
         $this->rating = $rating;

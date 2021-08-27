@@ -75,25 +75,16 @@ class Rating extends MorphPivot
         return config('rate.table_names.ratings') ?: parent::getTable();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-     */
     public function ratable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(config('rate.models.user'), config('rate.column_names.user_foreign_key'));
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
     public function rater(): BelongsTo
     {
         return $this->user();
@@ -109,12 +100,6 @@ class Rating extends MorphPivot
         return $object->is($this->ratable);
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string $type
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
     public function scopeWithType(Builder $query, string $type): Builder
     {
         return $query->where('ratable_type', app($type)->getMorphClass());

@@ -26,11 +26,6 @@ use function is_a;
  */
 trait Ratable
 {
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $user
-     *
-     * @return bool
-     */
     public function isRatedBy(Model $user): bool
     {
         if (! is_a($user, config('rate.models.user'))) {
@@ -52,17 +47,11 @@ trait Ratable
         return ! $this->isRatedBy($user);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
-     */
     public function ratableRatings(): MorphMany
     {
         return $this->morphMany(config('rate.models.rating'), 'ratable');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     public function raters(): MorphToMany
     {
         return tap(

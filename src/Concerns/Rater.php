@@ -16,10 +16,7 @@ use LaravelInteraction\Rate\Rating;
 trait Rater
 {
     /**
-     * @param \Illuminate\Database\Eloquent\Model $object
      * @param mixed $value
-     *
-     * @return \LaravelInteraction\Rate\Rating
      */
     public function rate(Model $object, $value = 1): Rating
     {
@@ -37,10 +34,7 @@ trait Rater
     }
 
     /**
-     * @param \Illuminate\Database\Eloquent\Model $object
      * @param mixed $value
-     *
-     * @return \LaravelInteraction\Rate\Rating
      */
     public function rateOnce(Model $object, $value = 1): Rating
     {
@@ -67,11 +61,6 @@ trait Rater
         return $rating;
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return bool
-     */
     public function unrate(Model $object): bool
     {
         $hasNotRated = $this->hasNotRated($object);
@@ -87,11 +76,6 @@ trait Rater
             ->detach($object->getKey());
     }
 
-    /**
-     * @param \Illuminate\Database\Eloquent\Model $object
-     *
-     * @return bool
-     */
     public function hasRated(Model $object): bool
     {
         return ($this->relationLoaded('raterRatings') ? $this->raterRatings : $this->raterRatings())
@@ -105,9 +89,6 @@ trait Rater
         return ! $this->hasRated($object);
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
     public function raterRatings(): HasMany
     {
         return $this->hasMany(
@@ -117,11 +98,6 @@ trait Rater
         );
     }
 
-    /**
-     * @param string $class
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
-     */
     protected function ratedItems(string $class): MorphToMany
     {
         return $this->morphedByMany(
