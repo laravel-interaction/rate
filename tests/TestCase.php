@@ -38,7 +38,7 @@ class TestCase extends BaseTestCase
         config([
             'database.default' => 'testing',
             'rate.models.user' => User::class,
-            'rate.uuids' => true,
+            'rate.uuids' => false,
         ]);
     }
 
