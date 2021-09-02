@@ -55,6 +55,7 @@ trait Rater
             if ($raterRatingsLoaded) {
                 $this->unsetRelation('raterRatings');
             }
+
             $rating->save();
         }
 
@@ -67,6 +68,7 @@ trait Rater
         if ($hasNotRated) {
             return true;
         }
+
         $raterRatingsLoaded = $this->relationLoaded('raterRatings');
         if ($raterRatingsLoaded) {
             $this->unsetRelation('raterRatings');

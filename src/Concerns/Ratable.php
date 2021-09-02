@@ -31,6 +31,7 @@ trait Ratable
         if (! is_a($user, config('rate.models.user'))) {
             return false;
         }
+
         $ratersLoaded = $this->relationLoaded('raters');
 
         if ($ratersLoaded) {
@@ -155,6 +156,7 @@ trait Ratable
         if ($this->ratable_ratings_count !== null) {
             return (int) $this->ratable_ratings_count;
         }
+
         $this->loadCount('ratableRatings');
 
         return (int) $this->ratable_ratings_count;
