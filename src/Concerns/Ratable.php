@@ -98,7 +98,7 @@ trait Ratable
         return (int) $this->raters_count;
     }
 
-    public function ratersCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function ratersCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->ratersCount(),
@@ -112,7 +112,7 @@ trait Ratable
     {
         return $query->whereHas(
             'raters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -122,7 +122,7 @@ trait Ratable
     {
         return $query->whereDoesntHave(
             'raters',
-            function (Builder $query) use ($user) {
+            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -162,8 +162,11 @@ trait Ratable
         return (int) $this->ratable_ratings_count;
     }
 
-    public function ratableRatingsCountForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
-    {
+    public function ratableRatingsCountForHumans(
+        int $precision = 1,
+        int $mode = PHP_ROUND_HALF_UP,
+        $divisors = null
+    ): string {
         return Interaction::numberForHumans(
             $this->ratableRatingsCount(),
             $precision,
@@ -224,7 +227,7 @@ trait Ratable
         return $this;
     }
 
-    public function sumRatingForHumans($precision = 1, $mode = PHP_ROUND_HALF_UP, $divisors = null): string
+    public function sumRatingForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
         return Interaction::numberForHumans(
             $this->sumRating(),

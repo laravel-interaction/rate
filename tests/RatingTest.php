@@ -9,22 +9,25 @@ use LaravelInteraction\Rate\Rating;
 use LaravelInteraction\Rate\Tests\Models\Channel;
 use LaravelInteraction\Rate\Tests\Models\User;
 
-class RatingTest extends TestCase
+/**
+ * @internal
+ */
+final class RatingTest extends TestCase
 {
     /**
      * @var \LaravelInteraction\Rate\Tests\Models\User
      */
-    protected $user;
+    private $user;
 
     /**
      * @var \LaravelInteraction\Rate\Tests\Models\Channel
      */
-    protected $channel;
+    private $channel;
 
     /**
      * @var \LaravelInteraction\Rate\Rating
      */
-    protected $rating;
+    private $rating;
 
     protected function setUp(): void
     {

@@ -10,7 +10,10 @@ use LaravelInteraction\Rate\Tests\Models\Channel;
 use LaravelInteraction\Rate\Tests\Models\User;
 use LaravelInteraction\Rate\Tests\TestCase;
 
-class ReratedTest extends TestCase
+/**
+ * @internal
+ */
+final class ReratedTest extends TestCase
 {
     public function testOnce(): void
     {

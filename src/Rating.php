@@ -32,6 +32,9 @@ class Rating extends MorphPivot
         return (bool) config('rate.uuids');
     }
 
+    /**
+     * @var bool
+     */
     public $incrementing = true;
 
     public function getIncrementing(): bool
@@ -66,6 +69,9 @@ class Rating extends MorphPivot
         );
     }
 
+    /**
+     * @var array<string, class-string<\LaravelInteraction\Rate\Events\Rated>>|array<string, class-string<\LaravelInteraction\Rate\Events\Rerated>>|array<string, class-string<\LaravelInteraction\Rate\Events\Unrated>>
+     */
     protected $dispatchesEvents = [
         'created' => Rated::class,
         'updated' => Rerated::class,

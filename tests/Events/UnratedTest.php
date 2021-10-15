@@ -10,7 +10,10 @@ use LaravelInteraction\Rate\Tests\Models\Channel;
 use LaravelInteraction\Rate\Tests\Models\User;
 use LaravelInteraction\Rate\Tests\TestCase;
 
-class UnratedTest extends TestCase
+/**
+ * @internal
+ */
+final class UnratedTest extends TestCase
 {
     public function testOnce(): void
     {
