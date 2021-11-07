@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace LaravelInteraction\Rate\Tests\Concerns;
 
+use Iterator;
 use LaravelInteraction\Rate\Tests\Models\Channel;
 use LaravelInteraction\Rate\Tests\Models\User;
 use LaravelInteraction\Rate\Tests\TestCase;
@@ -16,7 +17,7 @@ final class RatableTest extends TestCase
     /**
      * @return \Iterator<array<class-string<\LaravelInteraction\Rate\Tests\Models\Channel|\LaravelInteraction\Rate\Tests\Models\User>>>
      */
-    public function provideModelClasses(): \Iterator
+    public function provideModelClasses(): Iterator
     {
         yield [Channel::class];
         yield [User::class];

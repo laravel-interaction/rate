@@ -112,7 +112,7 @@ trait Ratable
     {
         return $query->whereHas(
             'raters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
@@ -122,7 +122,7 @@ trait Ratable
     {
         return $query->whereDoesntHave(
             'raters',
-            function (Builder $query) use ($user): \Illuminate\Database\Eloquent\Builder {
+            function (Builder $query) use ($user): Builder {
                 return $query->whereKey($user->getKey());
             }
         );
