@@ -17,7 +17,9 @@ class CreateRatingsTable extends Migration
             config('rate.table_names.ratings'),
             function (Blueprint $table): void {
                 config('rate.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
-                $table->unsignedBigInteger(config('rate.column_names.user_foreign_key'))->index()->comment('user_id');
+                $table->unsignedBigInteger(config('rate.column_names.user_foreign_key'))
+                    ->index()
+                    ->comment('user_id');
                 $table->morphs('ratable');
                 $table->float('rating');
                 $table->timestamps();
