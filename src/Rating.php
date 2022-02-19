@@ -78,7 +78,7 @@ class Rating extends MorphPivot
         'deleted' => Unrated::class,
     ];
 
-    public function getTable()
+    public function getTable(): string
     {
         return config('rate.table_names.ratings') ?: parent::getTable();
     }
