@@ -3,6 +3,11 @@
     "description": "User rate/unrate behaviour for Laravel.",
     "keywords": ["laravel", "rating", "rate"],
     "license": "MIT",
+    "homepage": "https://github.com/laravel-interaction/rate",
+    "support": {
+        "issues": "https://github.com/laravel-interaction/rate/issues",
+        "source": "https://github.com/laravel-interaction/rate"
+    },
     "authors": [
         {
             "name": "zingimmick",
