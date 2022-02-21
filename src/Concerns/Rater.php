@@ -74,7 +74,7 @@ trait Rater
             $this->unsetRelation('raterRatings');
         }
 
-        return (bool) $this->ratedItems(get_class($object))
+        return (bool) $this->ratedItems(\get_class($object))
             ->detach($object->getKey());
     }
 

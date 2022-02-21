@@ -189,7 +189,7 @@ trait Ratable
 
     public function avgRating(): float
     {
-        if (array_key_exists('ratable_ratings_avg_rating', $this->getAttributes())) {
+        if (\array_key_exists('ratable_ratings_avg_rating', $this->getAttributes())) {
             return (float) $this->ratable_ratings_avg_rating;
         }
 
@@ -215,7 +215,7 @@ trait Ratable
 
     public function sumRating(): float
     {
-        if (array_key_exists('ratable_ratings_sum_rating', $this->getAttributes())) {
+        if (\array_key_exists('ratable_ratings_sum_rating', $this->getAttributes())) {
             return (float) $this->ratable_ratings_sum_rating;
         }
 
