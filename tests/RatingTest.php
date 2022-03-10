@@ -53,7 +53,7 @@ final class RatingTest extends TestCase
 
     public function testGetTable(): void
     {
-        self::assertSame(config('rate.table_names.ratings'), $this->rating->getTable());
+        self::assertSame(config('rate.table_names.pivot'), $this->rating->getTable());
     }
 
     public function testRater(): void

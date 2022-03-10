@@ -50,7 +50,7 @@ trait Ratable
 
     public function ratableRatings(): MorphMany
     {
-        return $this->morphMany(config('rate.models.rating'), 'ratable');
+        return $this->morphMany(config('rate.models.pivot'), 'ratable');
     }
 
     public function raters(): MorphToMany
@@ -59,7 +59,7 @@ trait Ratable
             $this->morphToMany(
                 config('rate.models.user'),
                 'ratable',
-                config('rate.models.rating'),
+                config('rate.models.pivot'),
                 null,
                 config('rate.column_names.user_foreign_key')
             ),

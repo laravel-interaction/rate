@@ -80,7 +80,7 @@ class Rating extends MorphPivot
 
     public function getTable(): string
     {
-        return config('rate.table_names.ratings') ?: parent::getTable();
+        return config('rate.table_names.pivot') ?: parent::getTable();
     }
 
     public function ratable(): MorphTo
