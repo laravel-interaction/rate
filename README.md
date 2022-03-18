@@ -9,12 +9,39 @@ User rate/unrate behaviour for Laravel.
 <a href="https://packagist.org/packages/laravel-interaction/rate"><img src="https://poser.pugx.org/laravel-interaction/rate/license" alt="License"></a>
 </p>
 
-> **Requires [PHP 7.3+](https://php.net/releases/)**
+## Introduction
 
-Require Laravel Rate using [Composer](https://getcomposer.org):
+It let people express how they feel about the model(documentation/subject/service), help other users understand the model better.
+
+![](https://img.shields.io/badge/rating-%E2%98%85%E2%98%85%E2%98%85%E2%98%85%E2%98%86-brightgreen)
+
+## Installation
+
+### Requirements
+
+- [PHP 7.3+](https://php.net/releases/)
+- [Composer](https://getcomposer.org)
+- [Laravel 8.0+](https://laravel.com/docs/releases)
+
+### Instructions
+
+Require Laravel Rate using [Composer](https://getcomposer.org).
 
 ```bash
 composer require laravel-interaction/rate
+```
+
+Publish configuration and migrations
+
+```bash
+php artisan vendor:publish --tag=rate-config
+php artisan vendor:publish --tag=rate-migrations
+```
+
+Run database migrations.
+
+```bash
+php artisan migrate
 ```
 
 ## Usage
