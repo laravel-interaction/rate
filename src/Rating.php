@@ -61,7 +61,7 @@ class Rating extends MorphPivot
         parent::boot();
 
         static::creating(
-            function (self $like): void {
+            static function (self $like): void {
                 if ($like->uuids()) {
                     $like->{$like->getKeyName()} = Str::orderedUuid();
                 }

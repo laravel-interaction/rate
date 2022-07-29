@@ -15,7 +15,7 @@ class CreateRatingsTable extends Migration
     {
         Schema::create(
             config('rate.table_names.pivot'),
-            function (Blueprint $table): void {
+            static function (Blueprint $table): void {
                 config('rate.uuids') ? $table->uuid('uuid') : $table->bigIncrements('id');
                 $table->unsignedBigInteger(config('rate.column_names.user_foreign_key'))
                     ->index()
