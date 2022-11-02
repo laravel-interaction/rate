@@ -15,10 +15,7 @@ use LaravelInteraction\Rate\Rating;
  */
 trait Rater
 {
-    /**
-     * @param mixed $value
-     */
-    public function rate(Model $object, $value = 1): Rating
+    public function rate(Model $object, mixed $value = 1): Rating
     {
         $raterRatingsLoaded = $this->relationLoaded('raterRatings');
         if ($raterRatingsLoaded) {
@@ -33,10 +30,7 @@ trait Rater
             ]);
     }
 
-    /**
-     * @param mixed $value
-     */
-    public function rateOnce(Model $object, $value = 1): Rating
+    public function rateOnce(Model $object, mixed $value = 1): Rating
     {
         $attributes = [
             'ratable_id' => $object->getKey(),
@@ -74,7 +68,7 @@ trait Rater
             $this->unsetRelation('raterRatings');
         }
 
-        return (bool) $this->ratedItems(\get_class($object))
+        return (bool) $this->ratedItems($object::class)
             ->detach($object->getKey());
     }
 

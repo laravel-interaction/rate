@@ -77,13 +77,9 @@ trait Ratable
      */
     public function loadRatersCount($constraints = null)
     {
-        $this->loadCount(
-            [
-                'raters' => function ($query) use ($constraints) {
-                    return $this->selectDistinctRatersCount($query, $constraints);
-                },
-            ]
-        );
+        $this->loadCount([
+                'raters' => fn ($query) => $this->selectDistinctRatersCount($query, $constraints),
+            ]);
 
         return $this;
     }
@@ -116,21 +112,14 @@ trait Ratable
 
     public function scopeWhereRatedBy(Builder $query, Model $user): Builder
     {
-        return $query->whereHas(
-            'raters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
-        );
+        return $query->whereHas('raters', static fn (Builder $query): Builder => $query->whereKey($user->getKey()));
     }
 
     public function scopeWhereNotRatedBy(Builder $query, Model $user): Builder
     {
         return $query->whereDoesntHave(
             'raters',
-            static function (Builder $query) use ($user): Builder {
-                return $query->whereKey($user->getKey());
-            }
+            static fn (Builder $query): Builder => $query->whereKey($user->getKey())
         );
     }
 
@@ -141,9 +130,7 @@ trait Ratable
     {
         return $query->withCount(
             [
-                'raters' => function ($query) use ($constraints) {
-                    return $this->selectDistinctRatersCount($query, $constraints);
-                },
+                'raters' => fn ($query) => $this->selectDistinctRatersCount($query, $constraints),
             ]
         );
     }
@@ -229,10 +216,7 @@ trait Ratable
         );
     }
 
-    /**
-     * @param int|float $max
-     */
-    public function ratingPercent($max = 5): float
+    public function ratingPercent(int|float $max = 5): float
     {
         $quantity = $this->ratableRatingsCount();
         $total = $this->sumRating();

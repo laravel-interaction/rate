@@ -60,9 +60,7 @@ final class RatableTest extends TestCase
             ->paginate();
         self::assertSame(1, $paginate->total());
         self::assertCount(1, $paginate->items());
-        $model->loadRatersCount(static function ($query) use ($user) {
-            return $query->whereKeyNot($user->getKey());
-        });
+        $model->loadRatersCount(static fn ($query) => $query->whereKeyNot($user->getKey()));
         self::assertSame(0, $model->ratersCount());
         $user2 = User::query()->create();
         $user2->rate($model);
@@ -95,9 +93,7 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->withRatersCount()->whereKey($model->getKey())->firstOrFail();
         self::assertSame(1, $model->ratersCount());
         $model = $modelClass::query()->withRatersCount(
-            static function ($query) use ($user) {
-                return $query->whereKeyNot($user->getKey());
-            }
+            static fn ($query) => $query->whereKeyNot($user->getKey())
         )->whereKey($model->getKey())
             ->firstOrFail();
 

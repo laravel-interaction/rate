@@ -8,13 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Rated
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    public $rating;
-
-    public function __construct(Model $rating)
+    public function __construct(public Model $model)
     {
-        $this->rating = $rating;
     }
 }
