@@ -11,8 +11,6 @@ use Illuminate\Database\Eloquent\Relations\MorphToMany;
 use Illuminate\Support\Facades\DB;
 use LaravelInteraction\Support\Interaction;
 
-use function is_a;
-
 /**
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Rate\Rating[] $ratableRatings
  * @property-read \Illuminate\Database\Eloquent\Collection|\LaravelInteraction\Rate\Concerns\Rater[] $raters
@@ -78,8 +76,8 @@ trait Ratable
     public function loadRatersCount($constraints = null)
     {
         $this->loadCount([
-                'raters' => fn ($query) => $this->selectDistinctRatersCount($query, $constraints),
-            ]);
+            'raters' => fn ($query) => $this->selectDistinctRatersCount($query, $constraints),
+        ]);
 
         return $this;
     }
