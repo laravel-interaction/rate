@@ -16,7 +16,7 @@ final class RatableTest extends TestCase
     /**
      * @return \Iterator<array<class-string<\LaravelInteraction\Rate\Tests\Models\Channel|\LaravelInteraction\Rate\Tests\Models\User>>>
      */
-    public function provideModelClasses(): \Iterator
+    public static function provideModelClasses(): \Iterator
     {
         yield [Channel::class];
 
