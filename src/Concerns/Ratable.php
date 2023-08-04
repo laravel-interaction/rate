@@ -214,7 +214,7 @@ trait Ratable
         );
     }
 
-    public function ratingPercent(int|float $max = 5): float
+    public function ratingPercent(float|int $max = 5): float
     {
         $quantity = $this->ratableRatingsCount();
         $total = $this->sumRating();
