@@ -65,8 +65,8 @@ final class RaterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->rate($channel);
-        self::assertSame(1, $user->raterRatings()->count());
-        self::assertSame(1, $user->raterRatings->count());
+        $this->assertSame(1, $user->raterRatings()->count());
+        $this->assertSame(1, $user->raterRatings->count());
     }
 
     public function testHasRated(): void
@@ -74,10 +74,10 @@ final class RaterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->rate($channel);
-        self::assertTrue($user->hasRated($channel));
+        $this->assertTrue($user->hasRated($channel));
         $user->unrate($channel);
         $user->load('raterRatings');
-        self::assertFalse($user->hasRated($channel));
+        $this->assertFalse($user->hasRated($channel));
     }
 
     public function testHasNotRated(): void
@@ -85,8 +85,8 @@ final class RaterTest extends TestCase
         $user = User::query()->create();
         $channel = Channel::query()->create();
         $user->rate($channel);
-        self::assertFalse($user->hasNotRated($channel));
+        $this->assertFalse($user->hasNotRated($channel));
         $user->unrate($channel);
-        self::assertTrue($user->hasNotRated($channel));
+        $this->assertTrue($user->hasNotRated($channel));
     }
 }

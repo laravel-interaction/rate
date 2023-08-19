@@ -32,45 +32,45 @@ final class RatingTest extends TestCase
 
     public function testRatingTimestamp(): void
     {
-        self::assertInstanceOf(Carbon::class, $this->rating->created_at);
-        self::assertInstanceOf(Carbon::class, $this->rating->updated_at);
+        $this->assertInstanceOf(Carbon::class, $this->rating->created_at);
+        $this->assertInstanceOf(Carbon::class, $this->rating->updated_at);
     }
 
     public function testScopeWithType(): void
     {
-        self::assertSame(1, Rating::query()->withType(Channel::class)->count());
-        self::assertSame(0, Rating::query()->withType(User::class)->count());
+        $this->assertSame(1, Rating::query()->withType(Channel::class)->count());
+        $this->assertSame(0, Rating::query()->withType(User::class)->count());
     }
 
     public function testGetTable(): void
     {
-        self::assertSame(config('rate.table_names.pivot'), $this->rating->getTable());
+        $this->assertSame(config('rate.table_names.pivot'), $this->rating->getTable());
     }
 
     public function testRater(): void
     {
-        self::assertInstanceOf(User::class, $this->rating->rater);
+        $this->assertInstanceOf(User::class, $this->rating->rater);
     }
 
     public function testRatable(): void
     {
-        self::assertInstanceOf(Channel::class, $this->rating->ratable);
+        $this->assertInstanceOf(Channel::class, $this->rating->ratable);
     }
 
     public function testUser(): void
     {
-        self::assertInstanceOf(User::class, $this->rating->user);
+        $this->assertInstanceOf(User::class, $this->rating->user);
     }
 
     public function testIsRatedTo(): void
     {
-        self::assertTrue($this->rating->isRatedTo($this->channel));
-        self::assertFalse($this->rating->isRatedTo($this->user));
+        $this->assertTrue($this->rating->isRatedTo($this->channel));
+        $this->assertFalse($this->rating->isRatedTo($this->user));
     }
 
     public function testIsRatedBy(): void
     {
-        self::assertFalse($this->rating->isRatedBy($this->channel));
-        self::assertTrue($this->rating->isRatedBy($this->user));
+        $this->assertFalse($this->rating->isRatedBy($this->channel));
+        $this->assertTrue($this->rating->isRatedBy($this->user));
     }
 }

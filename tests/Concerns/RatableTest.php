@@ -33,8 +33,8 @@ final class RatableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame(1, $model->ratableRatings()->count());
-        self::assertSame(1, $model->ratableRatings->count());
+        $this->assertSame(1, $model->ratableRatings()->count());
+        $this->assertSame(1, $model->ratableRatings->count());
     }
 
     /**
@@ -47,32 +47,32 @@ final class RatableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame(1, $model->ratersCount());
+        $this->assertSame(1, $model->ratersCount());
         $user->unrate($model);
-        self::assertSame(1, $model->ratersCount());
+        $this->assertSame(1, $model->ratersCount());
         $model->loadCount('raters');
-        self::assertSame(0, $model->ratersCount());
+        $this->assertSame(0, $model->ratersCount());
         $user->rate($model);
-        self::assertSame(1, $model->raters()->count());
-        self::assertSame(1, $model->raters->count());
+        $this->assertSame(1, $model->raters()->count());
+        $this->assertSame(1, $model->raters->count());
         $paginate = $model->raters()
             ->paginate();
-        self::assertSame(1, $paginate->total());
-        self::assertCount(1, $paginate->items());
+        $this->assertSame(1, $paginate->total());
+        $this->assertCount(1, $paginate->items());
         $model->loadRatersCount(static fn ($query) => $query->whereKeyNot($user->getKey()));
-        self::assertSame(0, $model->ratersCount());
+        $this->assertSame(0, $model->ratersCount());
         $user2 = User::query()->create();
         $user2->rate($model);
 
         $model->loadRatersCount();
-        self::assertSame(2, $model->ratersCount());
-        self::assertSame(2, $model->raters()->count());
+        $this->assertSame(2, $model->ratersCount());
+        $this->assertSame(2, $model->raters()->count());
         $model->load('raters');
-        self::assertSame(2, $model->raters->count());
+        $this->assertSame(2, $model->raters->count());
         $paginate = $model->raters()
             ->paginate();
-        self::assertSame(2, $paginate->total());
-        self::assertCount(2, $paginate->items());
+        $this->assertSame(2, $paginate->total());
+        $this->assertCount(2, $paginate->items());
     }
 
     /**
@@ -84,19 +84,19 @@ final class RatableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertSame(0, $model->ratersCount());
+        $this->assertSame(0, $model->ratersCount());
         $user->rate($model);
         $model = $modelClass::query()->withRatersCount()->whereKey($model->getKey())->firstOrFail();
-        self::assertSame(1, $model->ratersCount());
+        $this->assertSame(1, $model->ratersCount());
         $user->rate($model);
         $model = $modelClass::query()->withRatersCount()->whereKey($model->getKey())->firstOrFail();
-        self::assertSame(1, $model->ratersCount());
+        $this->assertSame(1, $model->ratersCount());
         $model = $modelClass::query()->withRatersCount(
             static fn ($query) => $query->whereKeyNot($user->getKey())
         )->whereKey($model->getKey())
             ->firstOrFail();
 
-        self::assertSame(0, $model->ratersCount());
+        $this->assertSame(0, $model->ratersCount());
     }
 
     /**
@@ -109,7 +109,7 @@ final class RatableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame('1', $model->ratersCountForHumans());
+        $this->assertSame('1', $model->ratersCountForHumans());
     }
 
     /**
@@ -121,14 +121,14 @@ final class RatableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertFalse($model->isRatedBy($model));
+        $this->assertFalse($model->isRatedBy($model));
         $user->rate($model);
-        self::assertTrue($model->isRatedBy($user));
+        $this->assertTrue($model->isRatedBy($user));
         $model->load('raters');
         $user->unrate($model);
-        self::assertTrue($model->isRatedBy($user));
+        $this->assertTrue($model->isRatedBy($user));
         $model->load('raters');
-        self::assertFalse($model->isRatedBy($user));
+        $this->assertFalse($model->isRatedBy($user));
     }
 
     /**
@@ -140,14 +140,14 @@ final class RatableTest extends TestCase
     {
         $user = User::query()->create();
         $model = $modelClass::query()->create();
-        self::assertTrue($model->isNotRatedBy($model));
+        $this->assertTrue($model->isNotRatedBy($model));
         $user->rate($model);
-        self::assertFalse($model->isNotRatedBy($user));
+        $this->assertFalse($model->isNotRatedBy($user));
         $model->load('raters');
         $user->unrate($model);
-        self::assertFalse($model->isNotRatedBy($user));
+        $this->assertFalse($model->isNotRatedBy($user));
         $model->load('raters');
-        self::assertTrue($model->isNotRatedBy($user));
+        $this->assertTrue($model->isNotRatedBy($user));
     }
 
     /**
@@ -160,9 +160,9 @@ final class RatableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame(1, $model->raters()->count());
+        $this->assertSame(1, $model->raters()->count());
         $user->unrate($model);
-        self::assertSame(0, $model->raters()->count());
+        $this->assertSame(0, $model->raters()->count());
     }
 
     /**
@@ -176,8 +176,8 @@ final class RatableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame(1, $modelClass::query()->whereRatedBy($user)->count());
-        self::assertSame(0, $modelClass::query()->whereRatedBy($other)->count());
+        $this->assertSame(1, $modelClass::query()->whereRatedBy($user)->count());
+        $this->assertSame(0, $modelClass::query()->whereRatedBy($other)->count());
     }
 
     /**
@@ -191,11 +191,11 @@ final class RatableTest extends TestCase
         $other = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame(
+        $this->assertSame(
             $modelClass::query()->whereKeyNot($model->getKey())->count(),
             $modelClass::query()->whereNotRatedBy($user)->count()
         );
-        self::assertSame($modelClass::query()->count(), $modelClass::query()->whereNotRatedBy($other)->count());
+        $this->assertSame($modelClass::query()->count(), $modelClass::query()->whereNotRatedBy($other)->count());
     }
 
     /**
@@ -209,7 +209,7 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $user->rate($model);
-        self::assertSame(2, $model->ratableRatingsCount());
+        $this->assertSame(2, $model->ratableRatingsCount());
     }
 
     /**
@@ -223,7 +223,7 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $user->rate($model);
-        self::assertSame('2', $model->ratableRatingsCountForHumans());
+        $this->assertSame('2', $model->ratableRatingsCountForHumans());
     }
 
     /**
@@ -236,11 +236,11 @@ final class RatableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        self::assertSame(1.0, $model->avgRating());
+        $this->assertSame(1.0, $model->avgRating());
         $user->rate($model, 2);
-        self::assertSame(1.0, $model->avgRating());
+        $this->assertSame(1.0, $model->avgRating());
         $model->offsetUnset('ratable_ratings_avg_rating');
-        self::assertSame(1.5, $model->avgRating());
+        $this->assertSame(1.5, $model->avgRating());
     }
 
     /**
@@ -254,11 +254,11 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $user->rate($model);
-        self::assertSame(2.0, $model->sumRating());
+        $this->assertSame(2.0, $model->sumRating());
         $user->rate($model);
-        self::assertSame(2.0, $model->sumRating());
+        $this->assertSame(2.0, $model->sumRating());
         $model->offsetUnset('ratable_ratings_sum_rating');
-        self::assertSame(3.0, $model->sumRating());
+        $this->assertSame(3.0, $model->sumRating());
     }
 
     /**
@@ -272,11 +272,11 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $user->rate($model);
-        self::assertSame('2', $model->sumRatingForHumans());
+        $this->assertSame('2', $model->sumRatingForHumans());
         $user->rate($model);
-        self::assertSame('2', $model->sumRatingForHumans());
+        $this->assertSame('2', $model->sumRatingForHumans());
         $model->offsetUnset('ratable_ratings_sum_rating');
-        self::assertSame('3', $model->sumRatingForHumans());
+        $this->assertSame('3', $model->sumRatingForHumans());
     }
 
     /**
@@ -290,7 +290,7 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $user->rate($model);
-        self::assertSame(20.0, $model->ratingPercent());
-        self::assertSame(10.0, $model->ratingPercent(10));
+        $this->assertSame(20.0, $model->ratingPercent());
+        $this->assertSame(10.0, $model->ratingPercent(10));
     }
 }
