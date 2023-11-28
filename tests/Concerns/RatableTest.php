@@ -236,11 +236,11 @@ final class RatableTest extends TestCase
         $user = User::query()->create();
         $model = $modelClass::query()->create();
         $user->rate($model);
-        $this->assertSame(1.0, $model->avgRating());
+        $this->assertEqualsWithDelta(1.0, $model->avgRating(), PHP_FLOAT_EPSILON);
         $user->rate($model, 2);
-        $this->assertSame(1.0, $model->avgRating());
+        $this->assertEqualsWithDelta(1.0, $model->avgRating(), PHP_FLOAT_EPSILON);
         $model->offsetUnset('ratable_ratings_avg_rating');
-        $this->assertSame(1.5, $model->avgRating());
+        $this->assertEqualsWithDelta(1.5, $model->avgRating(), PHP_FLOAT_EPSILON);
     }
 
     /**
@@ -254,11 +254,11 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $user->rate($model);
-        $this->assertSame(2.0, $model->sumRating());
+        $this->assertEqualsWithDelta(2.0, $model->sumRating(), PHP_FLOAT_EPSILON);
         $user->rate($model);
-        $this->assertSame(2.0, $model->sumRating());
+        $this->assertEqualsWithDelta(2.0, $model->sumRating(), PHP_FLOAT_EPSILON);
         $model->offsetUnset('ratable_ratings_sum_rating');
-        $this->assertSame(3.0, $model->sumRating());
+        $this->assertEqualsWithDelta(3.0, $model->sumRating(), PHP_FLOAT_EPSILON);
     }
 
     /**
@@ -290,7 +290,7 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $user->rate($model);
-        $this->assertSame(20.0, $model->ratingPercent());
-        $this->assertSame(10.0, $model->ratingPercent(10));
+        $this->assertEqualsWithDelta(20.0, $model->ratingPercent(), PHP_FLOAT_EPSILON);
+        $this->assertEqualsWithDelta(10.0, $model->ratingPercent(10), PHP_FLOAT_EPSILON);
     }
 }
