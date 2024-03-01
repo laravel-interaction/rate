@@ -14,11 +14,11 @@ use LaravelInteraction\Rate\Tests\Models\User;
  */
 final class RatingTest extends TestCase
 {
-    private \LaravelInteraction\Rate\Tests\Models\User $user;
+    private User $user;
 
-    private \LaravelInteraction\Rate\Tests\Models\Channel $channel;
+    private Channel $channel;
 
-    private \LaravelInteraction\Rate\Rating $rating;
+    private Rating $rating;
 
     protected function setUp(): void
     {
