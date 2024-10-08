@@ -34,7 +34,7 @@ final class RatableTest extends TestCase
         $model = $modelClass::query()->create();
         $user->rate($model);
         $this->assertSame(1, $model->ratableRatings()->count());
-        $this->assertSame(1, $model->ratableRatings->count());
+        $this->assertCount(1, $model->ratableRatings);
     }
 
     /**
@@ -54,7 +54,7 @@ final class RatableTest extends TestCase
         $this->assertSame(0, $model->ratersCount());
         $user->rate($model);
         $this->assertSame(1, $model->raters()->count());
-        $this->assertSame(1, $model->raters->count());
+        $this->assertCount(1, $model->raters);
         $paginate = $model->raters()
             ->paginate();
         $this->assertSame(1, $paginate->total());
@@ -68,7 +68,7 @@ final class RatableTest extends TestCase
         $this->assertSame(2, $model->ratersCount());
         $this->assertSame(2, $model->raters()->count());
         $model->load('raters');
-        $this->assertSame(2, $model->raters->count());
+        $this->assertCount(2, $model->raters);
         $paginate = $model->raters()
             ->paginate();
         $this->assertSame(2, $paginate->total());

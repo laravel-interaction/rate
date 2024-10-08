@@ -66,7 +66,7 @@ final class RaterTest extends TestCase
         $channel = Channel::query()->create();
         $user->rate($channel);
         $this->assertSame(1, $user->raterRatings()->count());
-        $this->assertSame(1, $user->raterRatings->count());
+        $this->assertCount(1, $user->raterRatings);
     }
 
     public function testHasRated(): void
