@@ -94,9 +94,9 @@ trait Ratable
     }
 
     /**
-     * @phpstan-param 1|2|3|4 $mode
-     *
      * @param array<int, string>|null $divisors
+     *
+     * @phpstan-param 1|2|3|4 $mode
      */
     public function ratersCountForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
@@ -160,9 +160,9 @@ trait Ratable
     }
 
     /**
-     * @phpstan-param 1|2|3|4 $mode
-     *
      * @param array<int, string>|null $divisors
+     *
+     * @phpstan-param 1|2|3|4 $mode
      */
     public function ratableRatingsCountForHumans(
         int $precision = 1,
@@ -200,9 +200,9 @@ trait Ratable
     }
 
     /**
-     * @phpstan-param 1|2|3|4 $mode
-     *
      * @param array<int, string>|null $divisors
+     *
+     * @phpstan-param 1|2|3|4 $mode
      */
     public function sumRatingForHumans(int $precision = 1, int $mode = PHP_ROUND_HALF_UP, $divisors = null): string
     {
